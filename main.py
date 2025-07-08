@@ -16,7 +16,7 @@ def index():
         alpha = getattr(model, 'alpha', 'N/A')
         return jsonify({
             "message": "✅ BTE Prediction Flask App is running.",
-            "model": "Ridge Regression",
+            "model": "Linear Ridge Regression",
             "hyperparameters": {
                 "alpha": alpha
             }
@@ -42,4 +42,4 @@ def predict():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
