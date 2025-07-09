@@ -9,13 +9,13 @@ SCALER_PATH = os.path.join(MODEL_DIR, "scaler.pkl")
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET"])
+@app.route("/home", methods=["GET"])
 def index():
     try:
         model = joblib.load(MODEL_PATH)
         alpha = getattr(model, 'alpha', 'N/A')
         return jsonify({
-            "message": "✅ BTE Prediction Flask App is running.",
+            "message": "BTE Prediction Flask App is running.",
             "model": "Linear Ridge Regression",
             "hyperparameters": {
                 "alpha": alpha
