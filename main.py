@@ -1,18 +1,33 @@
+# main.py
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 from train import predict_bte
-import joblib
 import os
+
 
 MODEL_DIR = "models"
 MODEL_PATH = os.path.join(MODEL_DIR, "model.pkl")
 SCALER_PATH = os.path.join(MODEL_DIR, "scaler.pkl")
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 @app.route("/home", methods=["GET"])
 def index():
     return render_template('index.html')
+
+# NEW ROUTE for status check
+@app.route("/status", methods=["GET"])
+def status_check():
+    try:
+        # You can add more complex checks here, e.g., if model files exist
+        if os.path.exists(MODEL_PATH) and os.path.exists(SCALER_PATH):
+            return jsonify({"message": "✅ Backend and models are ready.", "status": "ok"}), 200
+        else:
+            return jsonify({"message": "⚠️ Backend is running, but models not found.", "status": "warning"}), 200
+    except Exception as e:
+        return jsonify({"message": f"❌ Backend encountered an error: {str(e)}", "status": "error"}), 500
 
 @app.route("/predict", methods=["POST"])
 def predict():
