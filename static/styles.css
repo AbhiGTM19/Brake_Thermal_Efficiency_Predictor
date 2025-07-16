@@ -4,11 +4,12 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background-color: #f4f7f6;
+            background: url('assets/bg-2.jpg') no-repeat center center fixed;
+            background-size: cover;
             margin: 0;
         }
         .container {
-            background-color: #ffffff;
+            background-color:#b1babf;
             padding: 2rem;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -27,29 +28,31 @@
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: #555;
+            color: #000;
             font-weight: bold;
         }
         .form-group input {
             width: 100%;
             padding: 0.75rem;
-            border: 1px solid #ccc;
+            border: 1px solid #000;
             border-radius: 5px;
             box-sizing: border-box;
         }
         button {
             width: 100%;
             padding: 0.75rem;
-            background-color: #007bff;
+            background-color: #81888d;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 1rem;
             margin-top: 1rem;
+            border: 1px solid #000;
         }
         button:hover {
-            background-color: #0056b3;
+            transition: 0.3s ease-in-out;
+            background-color: #62686c;
         }
         .result, .status {
             margin-top: 1.5rem;
@@ -71,3 +74,24 @@
             background-color: #e2e3e5;
             color: #383d41;
         }
+
+/* Hide arrow keys for number input fields */
+
+/* For Webkit browsers (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* Important to remove the space reserved for the arrows */
+}
+
+/* For Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+/* You might want to add this to ensure consistent styling if you have other input styling */
+input[type="number"]:hover,
+input[type="number"]:focus {
+    -webkit-appearance: none; /* Re-apply in case hover/focus overrides it */
+    -moz-appearance: textfield;
+}
