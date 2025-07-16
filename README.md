@@ -77,7 +77,7 @@ Accepts engine parameters and returns predicted BTE.
 #### Response:
 ```json
 {
-  "predicted_BTE": 28.361
+  "predicted_BTE": 25.831
 }
 ```
 
@@ -129,5 +129,5 @@ Accepts engine parameters and returns predicted BTE.
 ---
 
 ## 🧾 License
-This project is part of the Project coursework.
+This project is part of the coursework.
 Feel free to fork and adapt for educational use.
