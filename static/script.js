@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-//            statusDiv.textContent = data.message || '✅ Backend is running.';
-//            statusDiv.style.display = 'block';
+            //            statusDiv.textContent = data.message || '✅ Backend is running.';
+            //            statusDiv.style.display = 'block';
             if (data.status === 'warning') {
                 statusDiv.style.backgroundColor = '#fff3cd'; // Yellowish for warning
                 statusDiv.style.color = '#856404';
@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
-document.getElementById('bte-form').addEventListener('submit', function(event) {
+document.getElementById('bte-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const formData = new FormData(this);
@@ -53,25 +53,25 @@ document.getElementById('bte-form').addEventListener('submit', function(event) {
         },
         body: JSON.stringify(data)
     })
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(err => {
-                throw new Error(err.error || `HTTP error! Status: ${response.status}`);
-            });
-        }
-        return response.json();
-    })
-    .then(data => {
-        if (data.predicted_BTE !== undefined) {
-            resultDiv.className = 'result success';
-            resultDiv.innerHTML = `<strong>Predicted BTE:</strong> ${data.predicted_BTE.toFixed(3)}`;
-        } else {
-            throw new Error(data.error || 'An unknown error occurred with prediction result.');
-        }
-    })
-    .catch(error => {
-        console.error('Prediction fetch error:', error);
-        resultDiv.className = 'result error';
-        resultDiv.innerHTML = `<strong>Error:</strong> ${error.message || 'Could not get prediction.'}`;
-    });
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => {
+                    throw new Error(err.error || `HTTP error! Status: ${response.status}`);
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.predicted_BTE !== undefined) {
+                resultDiv.className = 'result success';
+                resultDiv.innerHTML = `<strong>Predicted BTE:</strong> ${data.predicted_BTE.toFixed(3)}`;
+            } else {
+                throw new Error(data.error || 'An unknown error occurred with prediction result.');
+            }
+        })
+        .catch(error => {
+            console.error('Prediction fetch error:', error);
+            resultDiv.className = 'result error';
+            resultDiv.innerHTML = `<strong>Error:</strong> ${error.message || 'Could not get prediction.'}`;
+        });
 });
