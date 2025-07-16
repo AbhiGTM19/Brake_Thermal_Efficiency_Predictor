@@ -1,49 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BTE Predictor</title>
-    <link rel="styles.css" type="text/css">
-</head>
-<body>
-    <div class="container">
-        <h1>Brake Thermal Efficiency (BTE) Predictor</h1>
-        <div id="status" class="status">Checking backend status...</div>
-
-        <form id="bte-form">
-            <div class="form-group">
-                <label for="engine_load">Engine Load</label>
-                <input type="number" id="engine_load" name="engine_load" step="any" required>
-            </div>
-            <div class="form-group">
-                <label for="fuel_blend_percentage">Fuel Blend Percentage (%)</label>
-                <input type="number" id="fuel_blend_percentage" name="fuel_blend_percentage" step="any" required>
-            </div>
-            <div class="form-group">
-                <label for="nanoparticle_concentration">Nanoparticle Concentration</label>
-                <input type="number" id="nanoparticle_concentration" name="nanoparticle_concentration" step="any" required>
-            </div>
-            <div class="form-group">
-                <label for="injection_pressure">Injection Pressure</label>
-                <input type="number" id="injection_pressure" name="injection_pressure" step="any" required>
-            </div>
-            <div class="form-group">
-                <label for="engine_speed">Engine Speed (RPM)</label>
-                <input type="number" id="engine_speed" name="engine_speed" step="any" required>
-            </div>
-            <button type="submit">Predict BTE</button>
-        </form>
-
-        <div id="result" class="result"></div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
+ document.addEventListener('DOMContentLoaded', () => {
             const statusDiv = document.getElementById('status');
 
             // Check backend status on page load
-            fetch('/')
+            fetch('/home')
                 .then(response => response.json())
                 .then(data => {
                     statusDiv.textContent = data.message || '✅ Backend is running.';
@@ -96,6 +55,3 @@
                 resultDiv.innerHTML = `<strong>Error:</strong> ${error.message}`;
             });
         });
-    </script>
-</body>
-</html>
