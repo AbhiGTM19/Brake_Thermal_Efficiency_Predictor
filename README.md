@@ -2,21 +2,6 @@
 
 This project is a Flask-based web service that predicts Brake Thermal Efficiency (BTE) for Internal Combustion Engines using a machine learning model trained on engine performance data.
 
----
-
-## 📦 Project Structure
-```
-Brake_Thermal_Efficiency_Predictor/
-├── train.py                # Model training and prediction function
-├── main.py                 # Flask app for API exposure
-├── bte_dataset_cleaned.csv # Dataset for model training
-├── models/                 # Contains trained model and scaler (.pkl files)
-├── requirements.txt        # Python dependencies
-└── README.md
-```
-
----
-
 ## 🧰 Setup Instructions
 
 ### 1. Clone the Repo & Setup Virtual Environment
@@ -48,24 +33,24 @@ Server will run at `http://127.0.0.1:5000/`
 ---
 
 ## 📡 API Endpoints
+### ✅ GET / or GET /home
+Renders the main web interface with the prediction form.
+Returns the index.html template.
 
-### ✅ `GET /`
-Returns model information and confirms the app is running.
-#### Response:
-```json
+### ✅ GET /status
+Checks and returns the backend's operational status and model availability.
+
+Response:
 {
-  "message": "✅ BTE Prediction Flask App is running.",
-  "model": "Ridge Regression",
-  "hyperparameters": {
-    "alpha": 0.1
-  }
+  "message": "✅ Backend and models are ready.",
+  "status": "ok"
 }
-```
+(Or "warning" if models not found, or "error" if an exception occurs)
 
-### 🧠 `POST /predict`
-Accepts engine parameters and returns predicted BTE.
-#### Required JSON Body:
-```json
+### 🧠 POST /predict
+Accepts engine parameters as JSON and returns the predicted BTE.
+
+Required JSON Body:
 {
   "engine_load": 75,
   "fuel_blend_percentage": 30.0,
@@ -73,14 +58,16 @@ Accepts engine parameters and returns predicted BTE.
   "injection_pressure": 220,
   "engine_speed": 1800
 }
-```
-#### Response:
-```json
+Response:
+
 {
   "predicted_BTE": 25.831
 }
-```
 
+Error Responses:
+400 Bad Request: If required fields are missing (e.g., {"error": "Missing one or more required fields."}).
+
+500 Internal Server Error: For other server-side errors during prediction (e.g., data type conversion issues, model loading errors).
 ---
 
 ## ✅ Test Cases
