@@ -21,9 +21,8 @@ def index():
 @app.route("/status", methods=["GET"])
 def status_check():
     try:
-        # You can add more complex checks here, e.g., if model files exist
         if os.path.exists(MODEL_PATH) and os.path.exists(SCALER_PATH):
-            return jsonify({"message": "✅ Backend and models are ready.", "status": "ok"}), 200
+            return jsonify({"status": "ok"}), 200
         else:
             return jsonify({"message": "⚠️ Backend is running, but models not found.", "status": "warning"}), 200
     except Exception as e:
@@ -47,4 +46,4 @@ def predict():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=False)

@@ -12,8 +12,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            statusDiv.textContent = data.message || '✅ Backend is running.';
-            statusDiv.style.display = 'block';
+//            statusDiv.textContent = data.message || '✅ Backend is running.';
+//            statusDiv.style.display = 'block';
             if (data.status === 'warning') {
                 statusDiv.style.backgroundColor = '#fff3cd'; // Yellowish for warning
                 statusDiv.style.color = '#856404';
@@ -44,7 +44,7 @@ document.getElementById('bte-form').addEventListener('submit', function(event) {
     }
 
     const resultDiv = document.getElementById('result');
-    resultDiv.innerHTML = 'Predicting...'; // Provide immediate feedback
+    resultDiv.innerHTML = 'Predicting...';
 
     fetch('/predict', {
         method: 'POST',
@@ -55,10 +55,7 @@ document.getElementById('bte-form').addEventListener('submit', function(event) {
     })
     .then(response => {
         if (!response.ok) {
-            // Handle HTTP errors like 400 or 500
-            // Parse error message from backend
             return response.json().then(err => {
-                // Assuming backend sends {"error": "..."}
                 throw new Error(err.error || `HTTP error! Status: ${response.status}`);
             });
         }
@@ -67,14 +64,13 @@ document.getElementById('bte-form').addEventListener('submit', function(event) {
     .then(data => {
         if (data.predicted_BTE !== undefined) {
             resultDiv.className = 'result success';
-            resultDiv.innerHTML = `<strong>Predicted BTE:</strong> ${data.predicted_BTE.toFixed(3)}`; // Use toFixed for display
+            resultDiv.innerHTML = `<strong>Predicted BTE:</strong> ${data.predicted_BTE.toFixed(3)}`;
         } else {
-            // This should ideally be caught by the !response.ok block if backend returns proper error JSON
             throw new Error(data.error || 'An unknown error occurred with prediction result.');
         }
     })
     .catch(error => {
-        console.error('Prediction fetch error:', error); // Log the actual error for debugging
+        console.error('Prediction fetch error:', error);
         resultDiv.className = 'result error';
         resultDiv.innerHTML = `<strong>Error:</strong> ${error.message || 'Could not get prediction.'}`;
     });
