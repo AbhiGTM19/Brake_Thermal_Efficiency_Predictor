@@ -112,6 +112,5 @@
  input[type="number"]:hover,
  input[type="number"]:focus {
      -webkit-appearance: none;
-     /* Re-apply in case hover/focus overrides it */
      -moz-appearance: textfield;
  }
