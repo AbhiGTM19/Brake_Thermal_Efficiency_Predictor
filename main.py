@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from train import predict_bte
 import joblib
 import os
@@ -9,20 +9,10 @@ SCALER_PATH = os.path.join(MODEL_DIR, "scaler.pkl")
 
 app = Flask(__name__)
 
+@app.route("/")
 @app.route("/home", methods=["GET"])
 def index():
-    try:
-        model = joblib.load(MODEL_PATH)
-        alpha = getattr(model, 'alpha', 'N/A')
-        return jsonify({
-            "message": "BTE Prediction Flask App is running.",
-            "model": "Linear Ridge Regression",
-            "hyperparameters": {
-                "alpha": alpha
-            }
-        })
-    except Exception as e:
-        return jsonify({"error": f"Model could not be loaded: {str(e)}"}), 500
+    return render_template('index.html')
 
 @app.route("/predict", methods=["POST"])
 def predict():
