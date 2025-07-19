@@ -1,27 +1,22 @@
-// script.js
 document.addEventListener('DOMContentLoaded', () => {
     const statusDiv = document.getElementById('status');
 
-    // Check backend status on page load - now calling /status endpoint
-    fetch('/status') // <--- CHANGED THIS TO /status
+    fetch('/status')
         .then(response => {
             if (!response.ok) {
-                // If the status endpoint itself returns an error (e.g., 500)
                 return response.json().then(err => { throw new Error(err.message || 'Server error'); });
             }
             return response.json();
         })
         .then(data => {
-            //            statusDiv.textContent = data.message || '✅ Backend is running.';
-            //            statusDiv.style.display = 'block';
             if (data.status === 'warning') {
-                statusDiv.style.backgroundColor = '#fff3cd'; // Yellowish for warning
+                statusDiv.style.backgroundColor = '#fff3cd';
                 statusDiv.style.color = '#856404';
             } else if (data.status === 'error') {
-                statusDiv.style.backgroundColor = '#f8d7da'; // Reddish for error
+                statusDiv.style.backgroundColor = '#f8d7da';
                 statusDiv.style.color = '#721c24';
             } else {
-                statusDiv.style.backgroundColor = '#d4edda'; // Greenish for success
+                statusDiv.style.backgroundColor = '#d4edda';
                 statusDiv.style.color = '#155724';
             }
         })
@@ -33,12 +28,56 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 });
 
+const predictionModal = document.getElementById('predictionModal');
+const modalTitle = document.getElementById('modalTitle');
+const modalMessage = document.getElementById('modalMessage');
+const closeButton = document.querySelector('.close-button');
+const modalOkButton = document.querySelector('.modal-ok-button');
+const bteForm = document.getElementById('bte-form');
+
+function showModal(title, message, isSuccess = true) {
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+    predictionModal.classList.add('show');
+    if (isSuccess) {
+        predictionModal.querySelector('.modal-content').classList.remove('error-modal');
+        predictionModal.querySelector('.modal-content').classList.add('success-modal');
+    } else {
+        predictionModal.querySelector('.modal-content').classList.remove('success-modal');
+        predictionModal.querySelector('.modal-content').classList.add('error-modal');
+    }
+}
+
+function hideModal() {
+    predictionModal.classList.remove('show');
+}
+
+function clearForm() {
+    bteForm.reset();
+}
+
+closeButton.addEventListener('click', () => {
+    hideModal();
+    clearForm(); 
+});
+
+modalOkButton.addEventListener('click', () => {
+    hideModal();
+    clearForm();
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target === predictionModal) {
+        hideModal();
+        clearForm();
+    }
+});
+
 document.getElementById('bte-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const formData = new FormData(this);
     const data = {};
-    // Convert form data to a plain object and ensure values are numbers
     for (let [key, value] of formData.entries()) {
         data[key] = Number(value);
     }
@@ -63,15 +102,17 @@ document.getElementById('bte-form').addEventListener('submit', function (event) 
         })
         .then(data => {
             if (data.predicted_BTE !== undefined) {
-                resultDiv.className = 'result success';
-                resultDiv.innerHTML = `<strong>Predicted BTE:</strong> ${data.predicted_BTE.toFixed(3)}`;
-            } else {
-                throw new Error(data.error || 'An unknown error occurred with prediction result.');
+                showModal('Prediction Result', `Predicted Brake Thermal Efficiency is: ${data.predicted_BTE.toFixed(3)}`, true);
+                resultDiv.innerHTML = '';
+            } else {    
+                showModal('Prediction Error', data.error || 'An unknown error occurred with prediction result.', false);
             }
+            
         })
         .catch(error => {
             console.error('Prediction fetch error:', error);
-            resultDiv.className = 'result error';
-            resultDiv.innerHTML = `<strong>Error:</strong> ${error.message || 'Could not get prediction.'}`;
+            showModal('Prediction Error', `Error: ${error.message || 'Could not get prediction.'}`, false);
+            resultDiv.innerHTML = ''; 
+            
         });
 });

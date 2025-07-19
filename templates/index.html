@@ -4,46 +4,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BTE Predictor</title>
+    <title>BTE Predictor - ML Web App</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
 <body>
-    <div class="container">
-        <h1>Brake Thermal Efficiency (BTE) Predictor</h1>
-        <div id="status" class="status">Checking backend status...</div>
+    <!-- Navigation Bar defined here -->
+    <nav class="navbar">
+        <div class="nav-brand">BTE Predictor</div>
+        <ul class="nav-links">
+            <li><a href="#about"><span>About</span></a></li>
+            <li><a href="#features"><span>Features</span></a></li>
+            <li><a href="#model-details"><span>Model</span></a></li>
+            <li><a href="#predict"><span>Predict</span></a></li>
+            <li><a href="#contact"><span>Contact</span></a></li>
+        </ul>
+    </nav>
 
-        <form id="bte-form">
-            <div class="form-group">
-                <label for="engine_load">Engine Load</label>
-                <input type="number" id="engine_load" name="engine_load" step="any" required>
-            </div>
-            <div class="form-group">
-                <label for="fuel_blend_percentage">Fuel Blend Percentage (%)</label>
-                <input type="number" id="fuel_blend_percentage" name="fuel_blend_percentage" step="any" required>
-            </div>
-            <div class="form-group">
-                <label for="nanoparticle_concentration">Nanoparticle Concentration</label>
-                <input type="number" id="nanoparticle_concentration" name="nanoparticle_concentration" step="any"
-                    required>
-            </div>
-            <div class="form-group">
-                <label for="injection_pressure">Injection Pressure</label>
-                <input type="number" id="injection_pressure" name="injection_pressure" step="any" required>
-            </div>
-            <div class="form-group">
-                <label for="engine_speed">Engine Speed (RPM)</label>
-                <input type="number" id="engine_speed" name="engine_speed" step="any" required>
-            </div>
-            <button type="submit">Predict BTE</button>
-        </form>
+    <!-- Hero section defined here -->
+    <header class="hero-section">
+        <div class="hero-content">
+            <h1>Predict Brake Thermal Efficiency with AI</h1>
+            <p>Leveraging machine learning to accurately forecast engine performance.</p>
+        </div>
+    </header>
 
-        <div id="result" class="result"></div>
+    <!-- About section defined here -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2>About This Project</h2>
+            <p>This web application is designed to predict the Brake Thermal Efficiency (BTE) of Internal Combustion
+                Engines using a machine learning model. BTE is a crucial parameter indicating how efficiently an engine
+                converts the chemical energy of fuel into useful work. Accurate prediction helps in optimizing engine
+                design, fuel blend, and operational parameters.</p>
+            <p>Developed as part of an MLOps coursework, this project demonstrates a full-stack deployment of an ML
+                model, from training and persistence to a user-friendly web interface.</p>
+        </div>
+    </section>
+
+    <!-- Key Features defined here -->
+    <section id="features" class="section ">
+        <div class="container">
+            <h2>Key Features</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <h3>Machine Learning</h3>
+                    <p>Utilizes a trained Ridge Regression model for precise BTE predictions.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>User-Friendly Interface</h3>
+                    <p>Intuitive web form for inputting engine parameters and receiving instant predictions.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Real-time Predictions</h3>
+                    <p>Asynchronous communication ensures quick responses without page reloads.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Robust Backend</h3>
+                    <p>Built with Flask, ensuring scalability and efficient handling of requests.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Status Indicators</h3>
+                    <p>Frontend checks and displays the backend's operational status.</p>
+                </div>
+                <div class="feature-item">
+                    <h3>Modern Design</h3>
+                    <p>Clean, responsive design with a gradient button and custom background.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Prediction Model defined here -->
+    <section id="model-details" class="section">
+        <div class="container">
+            <h2>The Prediction Model</h2>
+            <p>The core of this application is a machine learning model trained on a comprehensive dataset of engine
+                performance parameters. The model used is **Ridge Regression**, known for its effectiveness in handling
+                multicollinearity and providing robust predictions.</p>
+            <h3>Training Process:</h3>
+            <ul style="font-size: 0.9rem;">
+                <li>Input features are scaled using `StandardScaler` to normalize their ranges
+                    and prevent bias towards features with larger values.</li>
+                <li>`GridSearchCV` is employed to find the optimal `alpha` parameter for the
+                    Ridge model, ensuring the best possible predictive performance.</li>
+                <li>The trained model and the scaler are saved using `joblib` into the `models/`
+                    directory, allowing them to be loaded efficiently by the Flask application for predictions.</li>
+            </ul>
+            <p>The model considers key engine parameters such as Engine Load, Fuel Blend Percentage, Nanoparticle
+                Concentration, Injection Pressure, and Engine Speed to make accurate BTE forecasts.</p>
+        </div>
+    </section>
+
+    <!-- Predict BTE from defined here -->
+    <section id="predict" class="section ">
+        <div class="container">
+            <h2>Predict Brake Thermal Efficiency</h2>
+            <p>Enter the engine parameters below to get an instant prediction of the Brake Thermal Efficiency.</p>
+            <form id="bte-form">
+                <div class="form-group">
+                    <input type="number" id="engine_load" name="engine_load" step="any" placeholder="Enter Engine Load"
+                        required>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="fuel_blend_percentage" name="fuel_blend_percentage" step="any"
+                        placeholder="Enter Fuel Blend Percentage (%)" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="nanoparticle_concentration" name="nanoparticle_concentration" step="any"
+                        placeholder="Enter Nanoparticle Concentration" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="injection_pressure" name="injection_pressure" step="any"
+                        placeholder="Enter Injection Pressure" required>
+                </div>
+                <div class="form-group">
+                    <input type="number" id="engine_speed" name="engine_speed" step="any"
+                        placeholder="Enter Engine Speed (rpm)" required>
+                </div>
+                <button class="pred-btn" type="submit">Predict BTE</button>
+            </form>
+            <div id="result" class="result"></div>
+        </div>
+    </section>
+
+    <!-- Contect defined here -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2>Contact</h2>
+            <p>Feel free to connect or explore my other projects!</p>
+            <div class="contact-links">
+                <a href="https://www.linkedin.com/in/abhishek-gautam-03b56926b/" target="_blank" class="social-icon"><i
+                        class="fab fa-linkedin"></i> LinkedIn</a>
+                <a href="https://github.com/AbhiGTM19" target="_blank" class="social-icon"><i class="fab fa-github"></i>
+                    GitHub</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer defined here -->
+    <footer class="footer">
+        <p>&copy; 2025 Brake Thermal Efficiency Predictor. All rights reserved.</p><br>
+        <p>Developed by Abhishek Gautam</p><br>
+        <p style="color:crimson;">*** Future Enhancements will be made in the project ***</p>
+    </footer>
+
+    <!-- Modal defined here -->
+    <div id="predictionModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 id="modalTitle">Prediction Result</h2>
+            <p id="modalMessage"></p>
+            <button class="pred-btn modal-ok-button">OK</button>
+        </div>
     </div>
 
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 
 </html>
-
-<script src="{{ url_for('static', filename='script.js') }}"></script>
