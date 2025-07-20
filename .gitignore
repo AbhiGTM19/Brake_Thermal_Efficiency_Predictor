@@ -1,8 +1,64 @@
-venv/
+# Python
 __pycache__/
-*.csv
-models/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environments
+venv/
+.venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Logs and system files
+*.log
+*.DS_Store
+Thumbs.db
+
+# IDE/editor configs
 .idea/
-.DS_Store
-static/.DS_Store
+.vscode/
+
+# Environment variables
+.env
+.env.*
+
+# Flask cache
+instance/
+*.sqlite3
+
+# DVC files
+*.dvc
+.dvc/
+!.dvc
+.dvcignore
+!bte_dataset_cleaned.csv.dvc
+!models.dvc
+!models/
+
+
+# Model and dataset files
+models/
+*.pkl
+*.h5
+*.joblib
+*.onnx
+*.sav
+*.pt
+*.tflite
+
+# Output directories
+__outputs__/
+__artifacts__/
+plots/
+reports/
+
+# OS-generated files
+*.swp
+*.bak
+*.tmp
+*~
+/bte_dataset_cleaned.csv
 /models
