@@ -1,3 +1,43 @@
-# Add patterns of files dvc should ignore, which could improve
-# the performance. Learn more at
-# https://dvc.org/doc/user-guide/dvcignore
+# Ignore virtual environments
+venv/
+.venv/
+
+# Ignore IDE/editor configs
+.idea/
+.vscode/
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+
+# Ignore notebook checkpoints
+.ipynb_checkpoints/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore build and dist directories
+build/
+dist/
+
+# Ignore log files
+*.log
+
+# Ignore zipped or archived files
+*.zip
+*.tar.gz
+
+# Ignore test cache
+.pytest_cache/
+.tox/
+.nox/
+
+# Ignore coverage and metadata
+coverage.xml
+*.egg-info/
+.eggs/
+htmlcov/
+
+# Ignore local DVC storage (if inside repo)
+dvc_storage/
