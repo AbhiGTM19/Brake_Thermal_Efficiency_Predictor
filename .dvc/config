@@ -1,4 +1,0 @@
-[core]
-    remote = local_dvc_cache
-['remote "local_dvc_cache"']
-    url = ../../dvc_storage
