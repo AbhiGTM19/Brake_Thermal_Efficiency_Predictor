@@ -5,14 +5,14 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
+# Copy requirements and install
 COPY requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
+# Copy all files, including trained artifacts
 COPY . .
-
-VOLUME /app/mlruns
 
 EXPOSE 5000
 
-CMD ["sh", "-c", "python main.py"]
+CMD ["python", "main.py"]
