@@ -1,72 +1,85 @@
-# Byte-compiled / optimized / DLL files
+# ----------------------------
+# Python artifacts
+# ----------------------------
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
 
-# Virtual environment folders
+# Virtual environments
 venv/
 .venv/
 
-# macOS system files
-.DS_Store
-
-# DVC cache (if outside project, configure appropriately)
-.dvc/cache/
-.dvc/tmp/
-
-# DVC-tracked data artifacts - we track their .dvc files instead
-models/
-!models/
-bte_dataset_cleaned.csv
-
-# DVC internal metadata should NOT be ignored
-# So we explicitly allow .dvc directory
-!.dvc/
-
-# Logs and runtime files
-*.log
-*.pid
-
-# Jupyter Notebook checkpoints
-.ipynb_checkpoints/
-
-# VS Code settings
-.vscode/
-
-# JetBrains IDE (e.g., PyCharm)
-.idea/
-
-# Python virtual environment metadata
-*.egg-info/
-.eggs/
-
-# Test and coverage reports
-htmlcov/
-.tox/
-.nox/
-coverage.xml
-*.cover
-*.py,cover
-.cache
-nosetests.xml
-pytest_cache/
-
-# Distribution/build
-dist/
-build/
-*.egg
-
-# Environment variables
+# Environment variable files
 .env
 .env.*
 
-# Node assets if frontend expands
+# Compiled / build artifacts
+*.egg-info/
+.eggs/
+*.egg
+*.whl
+dist/
+build/
+mlruns/
+
+# Python packaging
+pip-wheel-metadata/
+
+# Python test cache and coverage
+*.cover
+*.py,cover
+.cache/
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+pytest_cache/
+nosetests.xml
+
+# ----------------------------
+# Project-specific
+# ----------------------------
+
+# Trained model artifacts (now handled via MLflow)
+models/
+*.pkl
+
+# Dataset tracked by DVC or logged separately
+bte_dataset_cleaned.csv
+
+# DVC cache & temp (if local)
+.dvc/cache/
+.dvc/tmp/
+dvc_storage/
+
+# Explicitly track DVC metadata
+!.dvc/
+
+# MLflow artifacts directory (keep tracked!)
+# (⚠️ DO NOT ignore mlruns/ unless using remote MLflow server)
+# mlruns/  <-- DO NOT ignore
+
+# ----------------------------
+# OS & Editor junk
+# ----------------------------
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# JetBrains IDEs (PyCharm, etc.)
+.idea/
+
+# ----------------------------
+# Frontend (if added later)
+# ----------------------------
 node_modules/
 
-# Exported zip/archive files
+# ----------------------------
+# Exported archives
+# ----------------------------
 *.zip
 *.tar.gz
-
-# Ignore default DVC storage (if created inside project later)
-dvc_storage/
