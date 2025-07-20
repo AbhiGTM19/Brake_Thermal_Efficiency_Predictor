@@ -45,6 +45,9 @@ def train_and_save_model():
 
 
 def predict_bte(input_dict):
+    if not os.path.exists(os.path.join(MODEL_DIR, "model.pkl")):
+        raise FileNotFoundError("Model not found at expected path.")
+    
     model = joblib.load(os.path.join(MODEL_DIR, "model.pkl"))
     scaler = joblib.load(os.path.join(MODEL_DIR, "scaler.pkl"))
 
