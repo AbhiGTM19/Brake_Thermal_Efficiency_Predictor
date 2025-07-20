@@ -17,6 +17,7 @@ venv/
 
 # DVC-tracked data artifacts - we track their .dvc files instead
 models/
+!models/
 bte_dataset_cleaned.csv
 
 # DVC internal metadata should NOT be ignored
