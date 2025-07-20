@@ -1,0 +1,21 @@
+# Ignore Python cache and virtualenv
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# IDE and editor folders
+.vscode/
+.idea/
+*.egg-info/
+
+# Data, models, and local MLflow artifacts
+models/
+mlruns/
+*.pkl
+*.csv
+*.log
+
+# OS / system files
+.DS_Store
+.env

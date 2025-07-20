@@ -46,7 +46,7 @@ models/
 *.pkl
 
 # Dataset tracked by DVC or logged separately
-bte_dataset_cleaned.csv
+# bte_dataset_cleaned.csv
 
 # DVC cache & temp (if local)
 .dvc/cache/
