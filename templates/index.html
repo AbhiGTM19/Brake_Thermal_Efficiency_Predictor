@@ -11,7 +11,6 @@
 </head>
 
 <body>
-    <!-- Navigation Bar defined here -->
     <nav class="navbar">
         <div class="nav-brand">BTE Predictor</div>
         <ul class="nav-links">
@@ -23,7 +22,6 @@
         </ul>
     </nav>
 
-    <!-- Hero section defined here -->
     <header class="hero-section">
         <div class="hero-content">
             <h1>Predict Brake Thermal Efficiency with AI</h1>
@@ -31,106 +29,113 @@
         </div>
     </header>
 
-    <!-- About section defined here -->
     <section id="about" class="section">
         <div class="container">
             <h2>About This Project</h2>
-            <p>This web application is designed to predict the Brake Thermal Efficiency (BTE) of Internal Combustion
-                Engines using a machine learning model. BTE is a crucial parameter indicating how efficiently an engine
-                converts the chemical energy of fuel into useful work. Accurate prediction helps in optimizing engine
-                design, fuel blend, and operational parameters.</p>
-            <p>Developed as part of an MLOps coursework, this project demonstrates a full-stack deployment of an ML
-                model, from training and persistence to a user-friendly web interface.</p>
+            <p>This project delivers a full-stack machine learning solution to predict Brake Thermal Efficiency (BTE) of
+                Internal Combustion Engines. BTE is a critical performance metric that reflects how effectively an
+                engine converts chemical energy from fuel into mechanical energy.</p>
+            <p>Developed as part of an MTech MLOps-focused curriculum, the application integrates core components of the
+                MLOps lifecycle—data preprocessing, model training, experiment tracking, model registry,
+                containerization, and CI/CD-friendly deployment using Docker and Render. The objective is not only to
+                provide accurate predictions but also demonstrate production-grade reproducibility and deployment
+                workflows.</p>
         </div>
     </section>
 
-    <!-- Key Features defined here -->
-    <section id="features" class="section ">
+    <section id="features" class="section">
         <div class="container">
             <h2>Key Features</h2>
             <div class="feature-grid">
                 <div class="feature-item">
-                    <h3>Machine Learning</h3>
-                    <p>Utilizes a trained Ridge Regression model for precise BTE predictions.</p>
+                    <h3>Ridge Regression Model</h3>
+                    <p>Leverages L2 regularization to reduce overfitting and multicollinearity for stable and robust
+                        predictions of BTE.</p>
                 </div>
                 <div class="feature-item">
-                    <h3>User-Friendly Interface</h3>
-                    <p>Intuitive web form for inputting engine parameters and receiving instant predictions.</p>
+                    <h3>Interactive UI</h3>
+                    <p>Simple and intuitive form-driven interface for real-time inference of engine efficiency metrics.
+                    </p>
                 </div>
                 <div class="feature-item">
-                    <h3>Real-time Predictions</h3>
-                    <p>Asynchronous communication ensures quick responses without page reloads.</p>
+                    <h3>Asynchronous Prediction</h3>
+                    <p>Built with AJAX-based form submission to provide fast responses without full page reloads.</p>
                 </div>
                 <div class="feature-item">
-                    <h3>Robust Backend</h3>
-                    <p>Built with Flask, ensuring scalability and efficient handling of requests.</p>
+                    <h3>Experiment Tracking with MLflow</h3>
+                    <p>All training runs are logged with parameters, metrics, and artifacts using MLflow, enabling easy
+                        comparison and version control.</p>
                 </div>
                 <div class="feature-item">
-                    <h3>Status Indicators</h3>
-                    <p>Frontend checks and displays the backend's operational status.</p>
+                    <h3>Dockerized Workflow</h3>
+                    <p>Packaged into a cross-platform Docker image (<code>linux/amd64</code>) for consistent deployment
+                        on Render or any cloud-native platform.</p>
                 </div>
                 <div class="feature-item">
-                    <h3>Modern Design</h3>
-                    <p>Clean, responsive design with a gradient button and custom background.</p>
+                    <h3>Cloud Deployment</h3>
+                    <p>Deployed on <strong>Render Web Services</strong> with container image pulled directly from Docker
+                        Hub.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- The Prediction Model defined here -->
     <section id="model-details" class="section">
         <div class="container">
             <h2>The Prediction Model</h2>
-            <p>The core of this application is a machine learning model trained on a comprehensive dataset of engine
-                performance parameters. The model used is **Ridge Regression**, known for its effectiveness in handling
-                multicollinearity and providing robust predictions.</p>
-            <h3>Training Process:</h3>
-            <ul style="font-size: 0.9rem;">
-                <li>Input features are scaled using `StandardScaler` to normalize their ranges
-                    and prevent bias towards features with larger values.</li>
-                <li>`GridSearchCV` is employed to find the optimal `alpha` parameter for the
-                    Ridge model, ensuring the best possible predictive performance.</li>
-                <li>The trained model and the scaler are saved using `joblib` into the `models/`
-                    directory, allowing them to be loaded efficiently by the Flask application for predictions.</li>
+            <p>The backend ML model is built using Ridge Regression and trained on a curated dataset of experimental
+                engine configurations and corresponding BTE values.</p>
+
+            <h3>Training Pipeline Highlights:</h3>
+            <ul>
+                <li><strong>StandardScaler:</strong> Applied to normalize feature ranges and improve convergence.</li>
+                <li><strong>GridSearchCV:</strong> Used for hyperparameter tuning (alpha selection) with 5-fold
+                    cross-validation to optimize performance.</li>
+                <li><strong>MLflow:</strong> Handles model lifecycle—including experiment tracking, metric logging,
+                    model serialization, and versioning.</li>
+                <li><strong>Pickle:</strong> Final model and scaler are serialized as <code>.pkl</code> files for
+                    inference within the app.</li>
             </ul>
-            <p>The model considers key engine parameters such as Engine Load, Fuel Blend Percentage, Nanoparticle
-                Concentration, Injection Pressure, and Engine Speed to make accurate BTE forecasts.</p>
+
+            <p>Each run is logged with metadata, and the best-performing model is versioned and registered for
+                reproducible deployment.</p>
+
         </div>
     </section>
 
-    <!-- Predict BTE from defined here -->
-    <section id="predict" class="section ">
+    <section id="predict" class="section">
         <div class="container">
             <h2>Predict Brake Thermal Efficiency</h2>
             <p>Enter the engine parameters below to get an instant prediction of the Brake Thermal Efficiency.</p>
             <form id="bte-form">
                 <div class="form-group">
-                    <input type="number" id="engine_load" name="engine_load" step="any" placeholder="Enter Engine Load"
-                        required>
+                    <input type="number" id="engine_load" name="engine_load" step="any"
+                        placeholder="Engine Load (e.g., 80)" required min="0">
                 </div>
                 <div class="form-group">
                     <input type="number" id="fuel_blend_percentage" name="fuel_blend_percentage" step="any"
-                        placeholder="Enter Fuel Blend Percentage (%)" required>
+                        placeholder="Fuel Blend Percentage (e.g., 10)" required min="0" max="100">
                 </div>
                 <div class="form-group">
                     <input type="number" id="nanoparticle_concentration" name="nanoparticle_concentration" step="any"
-                        placeholder="Enter Nanoparticle Concentration" required>
+                        placeholder="Nanoparticle Concentration (e.g., 50)" required min="0">
                 </div>
                 <div class="form-group">
                     <input type="number" id="injection_pressure" name="injection_pressure" step="any"
-                        placeholder="Enter Injection Pressure" required>
+                        placeholder="Injection Pressure (e.g., 1200)" required min="0">
                 </div>
                 <div class="form-group">
                     <input type="number" id="engine_speed" name="engine_speed" step="any"
-                        placeholder="Enter Engine Speed (rpm)" required>
+                        placeholder="Engine Speed (rpm, e.g., 2500)" required min="0">
                 </div>
-                <button class="pred-btn" type="submit">Predict BTE</button>
+                <button class="pred-btn" type="submit" id="predict-button">
+                    <span class="btn-text">Predict BTE</span>
+                    <span class="btn-loader" style="display: none;"></span>
+                </button>
             </form>
-            <div id="result" class="result"></div>
         </div>
     </section>
 
-    <!-- Contect defined here -->
     <section id="contact" class="section">
         <div class="container">
             <h2>Contact</h2>
@@ -144,14 +149,13 @@
         </div>
     </section>
 
-    <!-- Footer defined here -->
     <footer class="footer">
         <p>&copy; 2025 Brake Thermal Efficiency Predictor. All rights reserved.</p><br>
-        <p>Developed by Abhishek Gautam</p><br>
+        <p>Developed by Abhishek Gautam</p>
+        <p><em>Powered by Flask · MLflow · Scikit-Learn · Docker · Render</em></p>
         <p style="color:crimson;">*** Future Enhancements will be made in the project ***</p>
     </footer>
 
-    <!-- Modal defined here -->
     <div id="predictionModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
