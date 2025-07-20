@@ -1,9 +1,7 @@
-# main.py
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from train import predict_bte
 import os
-
 
 MODEL_DIR = "models"
 MODEL_PATH = os.path.join(MODEL_DIR, "model.pkl")
