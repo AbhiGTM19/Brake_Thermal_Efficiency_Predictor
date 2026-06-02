@@ -481,3 +481,16 @@ input[type="number"]:focus {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+/* Mermaid Styling */
+.mermaid .nodeLabel, .mermaid span, .mermaid text {
+    fill: var(--text-color, #000) !important;
+    color: var(--text-color, #000) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+    .mermaid .nodeLabel, .mermaid span, .mermaid text {
+        fill: #fff !important;
+        color: #fff !important;
+    }
+}
+

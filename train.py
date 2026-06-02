@@ -15,6 +15,8 @@ from mlflow.exceptions import MlflowException
 
 # Silencing GitPython warning in containerized environment
 os.environ["GIT_PYTHON_REFRESH"] = "quiet"
+# Allow MLflow to use local filesystem backend (required for MLflow 3+)
+os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
 
 # --- Configuration ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -87,13 +89,12 @@ def train_and_save_model() -> None:
     logging.info(f"⏱️ Training finished in {time.time() - start_time:.2f} seconds.")
 
 
-def predict_bte(input_dict: dict) -> float:
-    """Loads the production model and scaler, then performs prediction."""
+def load_production_model():
+    """Loads the production model and scaler."""
     mlflow.set_tracking_uri(MLFLOW_TRACKING_URI)
     client = MlflowClient()
 
     try:
-        mlflow.set_tracking_uri("file:/app/mlruns")
         model_uri = f"models:/{REGISTERED_MODEL_NAME}@production"
         logging.info(f"Loading production model from URI: {model_uri}")
         model = mlflow.sklearn.load_model(model_uri)
@@ -102,11 +103,15 @@ def predict_bte(input_dict: dict) -> float:
         run_id = model_version_details.run_id
         scaler_path = client.download_artifacts(run_id, SCALER_ARTIFACT_PATH)
         scaler = joblib.load(scaler_path)
+        return model, scaler
 
     except Exception as e:
         logging.error(f"❌ Failed to load model or scaler: {e}", exc_info=True)
         raise ValueError("Could not load model with alias 'production'. Ensure a model has been trained and alias is set.")
 
+
+def predict_bte(model, scaler, input_dict: dict) -> float:
+    """Performs prediction using the pre-loaded model and scaler."""
     feature_order = ['engine_load', 'fuel_blend_percentage', 'nanoparticle_concentration', 'injection_pressure', 'engine_speed']
     input_df = pd.DataFrame([input_dict], columns=feature_order)
     input_scaled = scaler.transform(input_df)

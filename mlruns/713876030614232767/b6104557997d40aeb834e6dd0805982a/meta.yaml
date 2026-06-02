@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/abhi/Downloads/AI ML/Brake_Thermal_Efficiency_Predictor/mlruns/713876030614232767/b6104557997d40aeb834e6dd0805982a/artifacts
+end_time: 1780418327359
+entry_point_name: ''
+experiment_id: '713876030614232767'
+lifecycle_stage: active
+run_id: b6104557997d40aeb834e6dd0805982a
+run_name: ridge_regression_run
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1780418325170
+status: 3
+tags: []
+user_id: abhi

@@ -1,0 +1,9 @@
+artifact_location: file:///Users/abhi/Downloads/AI ML/Brake_Thermal_Efficiency_Predictor/mlruns/713876030614232767
+creation_time: 1780417752566
+effective_trace_archival_retention: null
+experiment_id: '713876030614232767'
+last_update_time: 1780417752566
+lifecycle_stage: active
+name: Brake Thermal Efficiency Prediction
+trace_location: null
+workspace: default
