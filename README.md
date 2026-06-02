@@ -1,3 +1,12 @@
+---
+title: BTE Predictor
+emoji: 🚗
+colorFrom: blue
+colorTo: red
+sdk: docker
+pinned: false
+---
+
 # Brake Thermal Efficiency Predictor 🚗⚡
 
 This project is a FastAPI-based web service that predicts **Brake Thermal Efficiency (BTE)** for Internal Combustion Engines. It integrates a complete MLOps lifecycle from data processing to Hugging Face Space deployment, serving as a robust portfolio demonstration of production-grade Machine Learning Engineering.

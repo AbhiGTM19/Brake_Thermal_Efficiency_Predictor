@@ -21,9 +21,7 @@ os.environ["MLFLOW_ALLOW_FILE_STORE"] = "true"
 # --- Configuration ---
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 DATA_PATH = os.getenv("BTE_DATASET_PATH", "bte_dataset_cleaned.csv")
-docker_path = "/app/mlruns"
-local_path = "./mlruns"
-mlruns_path = docker_path if os.path.exists(docker_path) else local_path
+mlruns_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "mlruns"))
 MLFLOW_TRACKING_URI = f"file:{mlruns_path}"
 MLFLOW_EXPERIMENT_NAME = "Brake Thermal Efficiency Prediction"
 REGISTERED_MODEL_NAME = "bte-ridge-model"
