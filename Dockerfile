@@ -28,14 +28,14 @@ COPY --from=builder /usr/local/bin/ /usr/local/bin/
 # Copy application files and change ownership
 COPY --chown=1000:1000 . .
 
-# Ensure mlruns directory exists and is writable by appuser
-RUN mkdir -p /home/appuser/app/mlruns && chown -R 1000:1000 /home/appuser/app/mlruns
+# Make the app directory writable by appuser so it can create new files like scaler.pkl and mlruns
+RUN chown -R 1000:1000 /home/appuser/app
 
 # Switch to non-root user
 USER 1000
 
 # Run training to generate local MLflow artifacts with correct container absolute paths
-RUN rm -rf /home/appuser/app/mlruns && python train.py
+RUN python train.py
 
 # Expose port 7860 for Hugging Face
 EXPOSE 7860
