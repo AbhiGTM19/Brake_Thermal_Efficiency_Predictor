@@ -35,7 +35,7 @@ RUN mkdir -p /home/appuser/app/mlruns && chown -R 1000:1000 /home/appuser/app/ml
 USER 1000
 
 # Run training to generate local MLflow artifacts with correct container absolute paths
-RUN python train.py
+RUN rm -rf /home/appuser/app/mlruns && python train.py
 
 # Expose port 7860 for Hugging Face
 EXPOSE 7860
