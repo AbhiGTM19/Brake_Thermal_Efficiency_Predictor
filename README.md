@@ -1,3 +1,12 @@
+---
+title: BTE Predictor App
+emoji: 🚀
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+---
+
 # Brake_Thermal_Efficiency_Predictor
 
 This project is a Flask-based web service that predicts Brake Thermal Efficiency (BTE) for Internal Combustion Engines using a machine learning model trained on engine performance data.
