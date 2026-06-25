@@ -13,6 +13,6 @@ RUN pip install -r requirements.txt
 # Copy all files, including trained artifacts
 COPY . .
 
-EXPOSE 5000
+EXPOSE 7860
 
 CMD ["python", "main.py"]
