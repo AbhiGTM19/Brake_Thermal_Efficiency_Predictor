@@ -65,7 +65,7 @@ dvc_storage/
 # ----------------------------
 # OS & Editor junk
 # ----------------------------
-
+PAT.txt
 # macOS
 .DS_Store
 
