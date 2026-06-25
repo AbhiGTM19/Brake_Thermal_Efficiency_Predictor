@@ -39,5 +39,14 @@ def predict():
 
 if __name__ == "__main__":
     import os
+    try:
+        from huggingface_hub import hf_hub_download, snapshot_download
+        logging.info("Downloading MLflow models from HF Hub...")
+        # Download only the necessary model files to avoid overwriting README.md
+        snapshot_download(repo_id="abhshkgtm19/BTE-Predictor-Models", allow_patterns=["mlruns/**", "scaler.pkl"], local_dir="/app", local_dir_use_symlinks=False)
+        logging.info("Models downloaded successfully!")
+    except Exception as e:
+        logging.error(f"Failed to download models from HF Hub: {e}")
+
     port = int(os.environ.get("PORT", 7860))
     app.run(host="0.0.0.0", port=port, debug=False)
