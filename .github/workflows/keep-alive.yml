@@ -2,15 +2,71 @@ name: Keep Hugging Face Space Alive
 
 on:
   schedule:
-    - cron: '0 */12 * * *'
-  workflow_dispatch:
+    # Runs every 12 hours at minute 17 (00:17 and 12:17 UTC).
+    # Using an offset minute prevents GitHub Actions queue delays during peak hourly congestion.
+    - cron: '17 */12 * * *'
+  workflow_dispatch: # Allows manual trigger on demand from the GitHub Actions tab
 
 jobs:
-  ping:
+  ping-space:
+    name: Ping Hugging Face Space & Direct API
     runs-on: ubuntu-latest
     steps:
-      - name: Ping Hugging Face Space
+      - name: Ping Direct Space and Hub Endpoints
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          curl --fail -s "https://abhshkgtm19:$HF_TOKEN@huggingface.co/spaces/abhshkgtm19/BTE-Predictor-App" || echo "Ping executed."
+          echo "=================================================="
+          echo "📡 Keeping Hugging Face Space Alive: abhshkgtm19/BTE-Predictor-App"
+          echo "🕒 Timestamp (UTC): $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+          echo "=================================================="
+
+          SPACE_NAME="abhshkgtm19/BTE-Predictor-App"
+          DIRECT_APP_URL="https://hf.space"
+          HUB_URL="https://huggingface.co{SPACE_NAME}"
+          API_URL="https://huggingface.co{SPACE_NAME}"
+
+          # 1. Ping the direct application container health check
+          echo "1️⃣ Pinging direct container health endpoint..."
+          APP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 \
+            -H "Authorization: Bearer ${HF_TOKEN}" \
+            "${DIRECT_APP_URL}/api/v1/health" || echo "FAILED")
+          echo " -> Container Health HTTP Status: ${APP_STATUS}"
+
+          # If direct health check isn't 200, also ping the root app URL
+          if [ "${APP_STATUS}" != "200" ]; then
+            echo " -> Container health endpoint returned ${APP_STATUS}; trying direct app root..."
+            ROOT_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 \
+              -H "Authorization: Bearer ${HF_TOKEN}" \
+              "${DIRECT_APP_URL}/" || echo "FAILED")
+            echo " -> Direct App Root HTTP Status: ${ROOT_STATUS}"
+          fi
+
+          # 2. Ping Hugging Face Hub Web Page
+          echo "2️⃣ Pinging Hugging Face Space Hub page..."
+          HUB_STATUS=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 \
+            "${HUB_URL}" || echo "FAILED")
+          echo " -> Hub Page HTTP Status: ${HUB_STATUS}"
+
+          # 3. Check Space Runtime State via Hugging Face REST API
+          echo "3️⃣ Inspecting Space runtime state via HF API..."
+          SPACE_JSON=$(curl -s --max-time 30 \
+            -H "Authorization: Bearer ${HF_TOKEN}" \
+            "${API_URL}" || echo "{}")
+          STAGE=$(echo "${SPACE_JSON}" | grep -o '"stage":"[^"]*"' | cut -d'"' -f4 || echo "UNKNOWN")
+          echo " -> Space Runtime Stage: ${STAGE:-UNKNOWN}"
+
+          # 4. If the Space is sleeping, stopped, or building badly, trigger automatic wake-up / restart
+          if [ "${STAGE}" = "SLEEPING" ] || [ "${STAGE}" = "STOPPED" ] || [ "${APP_STATUS}" = "503" ]; then
+            echo "⚠️ Space is ${STAGE}. Sending wake-up / restart request..."
+            RESTART_RESP=$(curl -s -X POST --max-time 30 \
+              -H "Authorization: Bearer ${HF_TOKEN}" \
+              "${API_URL}/restart" || echo "FAILED")
+            echo " -> Restart response: ${RESTART_RESP}"
+          else
+            echo "✅ Space is operational or active."
+          fi
+
+          echo "=================================================="
+          echo "🎉 Keep-alive ping routine completed successfully."
+          echo "=================================================="
